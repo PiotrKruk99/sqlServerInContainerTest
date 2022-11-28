@@ -7,7 +7,7 @@ WriteLine("Sql Server console\n");
 
 try
 {
-    DatabaseOper.conn.Open();
+    DatabaseOper.Conn.Open();
 
     IEnumerable<DatabaseDetails> baseList = DatabaseOper.GetDatabasesList();
     WriteLine("   0 - create and use new database\n");
@@ -33,19 +33,26 @@ try
 
         try
         {
-            selectedOption = Convert.ToInt32(ReadLine());
-            
+            var charKey = ReadKey(true).KeyChar.ToString();
+            selectedOption = Convert.ToInt32(charKey);
+
             switch (selectedOption)
             {
                 case 1:
+                    DatabaseOper.NonResultQuery();
                     break;
                 case 2:
                     break;
                 case 3:
+                    DatabaseOper.MultirowQuery();
                     break;
                 case 4:
+                    DatabaseOper.ListAllTables();
                     break;
                 case 0:
+                    break;
+                default:
+                    WriteLine("Unsupported option!");
                     break;
             }
         }
@@ -60,7 +67,7 @@ try
     }
     while (selectedOption != 0);
 
-    DatabaseOper.conn.Close();
+    DatabaseOper.Conn.Close();
 }
 catch (SqlException exc)
 {
