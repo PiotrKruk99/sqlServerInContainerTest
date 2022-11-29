@@ -42,6 +42,7 @@ try
                     DatabaseOper.NonResultQuery();
                     break;
                 case 2:
+                    DatabaseOper.SingleRowQuery();
                     break;
                 case 3:
                     DatabaseOper.MultirowQuery();

@@ -119,11 +119,32 @@ public static class DatabaseOper
 
     public static void MultirowQuery()
     {
-        throw new NotImplementedException();
+        Write("Type sql command: ");
+        string? query = ReadLine();
+        var result = Conn.ExecuteReader(query);
+
+        while (result.Read())
+        {
+            for (int i = 0; i < result.FieldCount; i++)
+                Write(" | " + result.GetValue(i));
+
+            WriteLine();
+        }
     }
 
     public static void NonResultQuery()
     {
+        Write("Type sql command: ");
+        string? query = ReadLine();
+        Conn.Execute(query);
+    }
+
+    public static void SingleRowQuery()
+    {
+        // Write("Type sql command: ");
+        // string? query = ReadLine();
+        // var result = Conn.QuerySingle(query);
+
         throw new NotImplementedException();
     }
 }
