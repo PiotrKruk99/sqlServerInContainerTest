@@ -1,0 +1,3 @@
+CREATE TABLE testTable(testTableId INT IDENTITY(1,1) PRIMARY KEY, name VARCHAR(20) NOT NULL, age INT NOT NULL);
+
+insert into testTable(name, age) values('Andrzej Andrzejewski', 77);

@@ -37,7 +37,6 @@ public static class DatabaseOper
 
     public static void SelectDatabase(IEnumerable<DatabaseDetails> baseList)
     {
-        Write("Select database to work with: ");
         bool selectionOK;
         int selectedId;
 
@@ -46,7 +45,7 @@ public static class DatabaseOper
             selectionOK = true;
             try
             {
-                Write("select option: ");
+                Write("Select database to work with: ");
                 selectedId = Convert.ToInt32(ReadLine());
 
                 if (selectedId != 0)
@@ -121,14 +120,16 @@ public static class DatabaseOper
     {
         Write("Type sql command: ");
         string? query = ReadLine();
-        var result = Conn.ExecuteReader(query);
 
-        while (result.Read())
+        using (var result = Conn.ExecuteReader(query))
         {
-            for (int i = 0; i < result.FieldCount; i++)
-                Write(" | " + result.GetValue(i));
+            while (result.Read())
+            {
+                for (int i = 0; i < result.FieldCount; i++)
+                    Write(" | " + result.GetName(i) + " - " + result.GetValue(i));
 
-            WriteLine();
+                WriteLine();
+            }
         }
     }
 
@@ -141,10 +142,22 @@ public static class DatabaseOper
 
     public static void SingleRowQuery()
     {
-        // Write("Type sql command: ");
-        // string? query = ReadLine();
-        // var result = Conn.QuerySingle(query);
+        Write("Type sql command: ");
+        string? query = ReadLine();
 
-        throw new NotImplementedException();
+        using (var result = Conn.ExecuteReader(query))
+        {
+            if (result.Read())
+            {
+                for (int i = 0; i < result.FieldCount; i++)
+                    Write(" | " + result.GetName(i) + " - " + result.GetValue(i));
+
+                WriteLine();
+            }
+            else
+            {
+                WriteLine("no output from query");
+            }
+        }
     }
 }
